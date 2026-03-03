@@ -1,44 +1,55 @@
-import { Component, signal, computed } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { Component, signal } from '@angular/core';
+import {
+  form,
+  FormField,
+  required,
+  email,
+  minLength,
+  submit,
+  validate,
+} from '@angular/forms/signals';
 import { AfriInputComponent } from '../../../../components/ui/input/input.component';
+
+interface CreateAccountModel {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 @Component({
   selector: 'app-create-account',
-  imports: [ReactiveFormsModule, AfriInputComponent],
+  imports: [AfriInputComponent, FormField],
   template: `
     <div class="flex flex-col gap-6">
       <h2 class="text-xl font-semibold text-gray-900">Create account</h2>
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+      <form (submit)="onSubmit($event)" class="flex flex-col gap-5">
         <afri-input
-          formControlName="fullName"
+          [formField]="createAccountForm.fullName"
           label="Full name"
           placeholder="Enter your full name"
-          [errorMessage]="fullNameError()"
         />
 
         <afri-input
-          formControlName="email"
+          [formField]="createAccountForm.email"
           label="Email address"
           placeholder="Enter your email"
           type="email"
-          [errorMessage]="emailError()"
         />
 
         <afri-input
-          formControlName="password"
+          [formField]="createAccountForm.password"
           label="Password"
           placeholder="Enter password"
           type="password"
-          [errorMessage]="passwordError()"
         />
 
         <afri-input
-          formControlName="confirmPassword"
+          [formField]="createAccountForm.confirmPassword"
           label="Confirm password"
           placeholder="Confirm your password"
           type="password"
-          [errorMessage]="confirmPasswordError()"
         />
 
         <button
@@ -53,57 +64,38 @@ import { AfriInputComponent } from '../../../../components/ui/input/input.compon
   styles: ``,
 })
 export default class CreateAccount {
-  private readonly fb = new FormBuilder();
-
-  form = this.fb.nonNullable.group({
-    fullName: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required]],
+  protected readonly model = signal<CreateAccountModel>({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  fullNameError = computed(() => {
-    const c = this.form.controls.fullName;
-    if (!c.touched || !c.errors) return '';
-    if (c.errors['required']) return 'Full name is required';
-    if (c.errors['minlength']) return 'Enter at least 2 characters';
-    return '';
+  protected readonly createAccountForm = form(this.model, (s) => {
+    required(s.fullName, { message: 'Full name is required' });
+    minLength(s.fullName, 2, { message: 'Enter at least 2 characters' });
+
+    required(s.email, { message: 'Email is required' });
+    email(s.email, { message: 'Enter a valid email address' });
+
+    required(s.password, { message: 'Password is required' });
+    minLength(s.password, 8, { message: 'Password must be at least 8 characters' });
+
+    required(s.confirmPassword, { message: 'Please confirm your password' });
+    validate(s.confirmPassword, (ctx) => {
+      const passwordValue = ctx.valueOf(s.password);
+      if (passwordValue && ctx.value() && ctx.value() !== passwordValue) {
+        return { kind: 'mismatch', message: 'Passwords do not match' };
+      }
+      return null;
+    });
   });
 
-  emailError = computed(() => {
-    const c = this.form.controls.email;
-    if (!c.touched || !c.errors) return '';
-    if (c.errors['required']) return 'Email is required';
-    if (c.errors['email']) return 'Enter a valid email address';
-    return '';
-  });
-
-  passwordError = computed(() => {
-    const c = this.form.controls.password;
-    if (!c.touched || !c.errors) return '';
-    if (c.errors['required']) return 'Password is required';
-    if (c.errors['minlength']) return 'Password must be at least 8 characters';
-    return '';
-  });
-
-  confirmPasswordError = computed(() => {
-    const c = this.form.controls.confirmPassword;
-    if (this.form.errors?.['mismatch']) return 'Passwords do not match';
-    if (!c.touched || !c.errors) return '';
-    if (c.errors['required']) return 'Please confirm your password';
-    return '';
-  });
-
-  onSubmit(): void {
-    this.form.markAllAsTouched();
-    if (this.form.value.password !== this.form.value.confirmPassword && this.form.value.password !== '') {
-      this.form.setErrors({ mismatch: true });
-    } else {
-      this.form.setErrors(null);
-    }
-    if (this.form.invalid) {
-      return;
-    }
-    console.log('Create account', this.form.getRawValue());
+  onSubmit(event: Event): void {
+    event.preventDefault();
+    submit(this.createAccountForm, async () => {
+      console.log('Create account', this.model());
+      return null;
+    });
   }
 }

@@ -2,30 +2,26 @@ import {
   Component,
   input,
   output,
+  model,
   signal,
   computed,
   inject,
-  Optional,
-  Self,
-  AfterViewInit,
   ElementRef,
+  AfterViewInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import type { FormValueControl, ValidationError } from '@angular/forms/signals';
 
 /**
  * Reusable input component matching Afri Transfer Figma (node 176-11993).
- * - Label (Gray/600, 14px)
- * - Border Gray/300, 8px radius
- * - Placeholder Gray/400, optional leading/trailing content
+ * Implements FormValueControl for seamless integration with Angular Signal Forms.
  */
 @Component({
   selector: 'afri-input',
-  standalone: true,
   host: {
     class: 'block w-full',
-    '[class.afri-input--error]': 'error()',
-    '[class.afri-input--disabled]': 'disabledState()',
+    '[class.afri-input--error]': 'showError()',
+    '[class.afri-input--disabled]': 'disabled()',
   },
   template: `
     <div class="flex flex-col gap-1.5 w-full">
@@ -47,15 +43,16 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
           [id]="inputId()"
           [type]="type()"
           [placeholder]="placeholder()"
-          [disabled]="disabledState()"
-          [readonly]="readonly()"
-          [attr.aria-invalid]="error()"
+          [disabled]="disabled()"
+          [readonly]="isReadonly()"
+          [attr.aria-invalid]="showError()"
           [attr.aria-describedby]="hintId()"
           [attr.autocomplete]="autocomplete()"
+          [value]="value()"
           (input)="onInput($event)"
           (blur)="handleBlur($event)"
-          (focus)="focus.emit($event)"
-          [class]="classes()"
+          (focus)="inputFocus.emit($event)"
+          class="afri-input__field"
           #inputEl
         />
         @if (hasSuffix()) {
@@ -64,12 +61,12 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
           </span>
         }
       </div>
-      @if (error() && errorMessage()) {
+      @if (showError() && errors().length > 0) {
         <span [id]="hintId()" class="afri-input__hint afri-input__hint--error" role="alert">
-          {{ errorMessage() }}
+          {{ errors()[0].message }}
         </span>
       }
-      @if (!error() && hint()) {
+      @if (!showError() && hint()) {
         <span [id]="hintId()" class="afri-input__hint">
           {{ hint() }}
         </span>
@@ -174,28 +171,32 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
     }
   `,
 })
-export class AfriInputComponent implements ControlValueAccessor, AfterViewInit {
+export class AfriInputComponent implements FormValueControl<string>, AfterViewInit {
   private readonly el = inject(ElementRef<HTMLElement>);
-  private readonly ngControl = inject(NgControl, { optional: true, self: true });
   private uniqueId = `afri-input-${Math.random().toString(36).slice(2, 9)}`;
 
+  // FormValueControl — required
+  readonly value = model('');
+
+  // FormValueControl — optional (auto-synced by [formField] directive)
+  readonly touched = model(false);
+  readonly disabled = input(false);
+  readonly invalid = input(false);
+  readonly errors = input<readonly ValidationError.WithOptionalFieldTree[]>([]);
+  readonly required = input(false);
+
+  // Component-specific inputs
   label = input<string>('');
   placeholder = input<string>('');
   type = input<'text' | 'email' | 'password'>('text');
   hint = input<string>('');
-  classes = input<string>('afri-input__field');
-  errorMessage = input<string>('');
-  required = input<boolean>(false);
-  disabled = input<boolean>(false);
-  readonly = input<boolean>(false);
+  isReadonly = input<boolean>(false);
   autocomplete = input<string | undefined>(undefined);
 
   blur = output<FocusEvent>();
-  focus = output<FocusEvent>();
+  inputFocus = output<FocusEvent>();
 
-  error = computed(() => !!this.errorMessage());
-  private formDisabled = signal(false);
-  disabledState = computed(() => this.disabled() || this.formDisabled());
+  showError = computed(() => this.touched() && this.errors().length > 0);
   inputId = signal(this.uniqueId);
   hintId = signal(`${this.uniqueId}-hint`);
 
@@ -204,15 +205,6 @@ export class AfriInputComponent implements ControlValueAccessor, AfterViewInit {
   hasPrefix = () => this.hasPrefixSlot();
   hasSuffix = () => this.hasSuffixSlot();
 
-  private onChange: (value: string) => void = () => {};
-  protected onTouched: () => void = () => {};
-
-  constructor() {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
-    }
-  }
-
   ngAfterViewInit(): void {
     const host = this.el.nativeElement;
     this.hasPrefixSlot.set(!!host.querySelector('[prefix]'));
@@ -220,31 +212,11 @@ export class AfriInputComponent implements ControlValueAccessor, AfterViewInit {
   }
 
   onInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.onChange(value);
+    this.value.set((event.target as HTMLInputElement).value);
   }
 
   protected handleBlur(event: FocusEvent): void {
-    this.onTouched();
+    this.touched.set(true);
     this.blur.emit(event);
-  }
-
-  writeValue(value: string | null): void {
-    const input = this.el.nativeElement.querySelector('input');
-    if (input) {
-      input.value = value ?? '';
-    }
-  }
-
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.formDisabled.set(isDisabled);
   }
 }
