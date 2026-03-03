@@ -1,0 +1,299 @@
+// @use must come before @import in Sass
+@use '@angular/material' as mat;
+@use './styles/design-tokens';
+@import 'tailwindcss';
+
+/* Tailwind theme: use design token variables so utilities (bg-primary-600, etc.) work */
+@theme {
+  /* Font families */
+  --font-family-arimo: var(--font-family-arimo);
+  --font-family-inter: var(--font-family-inter);
+  --font-family-figtree: var(--font-family-figtree);
+  --font-family-poppins: var(--font-family-poppins);
+
+  /* Base */
+  --color-white: var(--color-white);
+  --color-accent: var(--color-accent);
+
+  /* Primary */
+  --color-primary-25: var(--color-primary-25);
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-primary-700: var(--color-primary-700);
+  --color-primary-800: var(--color-primary-800);
+  --color-primary-900: var(--color-primary-900);
+  --color-primary-950: var(--color-primary-950);
+
+  /* Secondary */
+  --color-secondary-25: var(--color-secondary-25);
+  --color-secondary-50: var(--color-secondary-50);
+  --color-secondary-100: var(--color-secondary-100);
+  --color-secondary-200: var(--color-secondary-200);
+  --color-secondary-300: var(--color-secondary-300);
+  --color-secondary-400: var(--color-secondary-400);
+  --color-secondary-500: var(--color-secondary-500);
+  --color-secondary-600: var(--color-secondary-600);
+  --color-secondary-700: var(--color-secondary-700);
+  --color-secondary-800: var(--color-secondary-800);
+  --color-secondary-900: var(--color-secondary-900);
+  --color-secondary-950: var(--color-secondary-950);
+
+  /* Gray */
+  --color-gray-25: var(--color-gray-25);
+  --color-gray-50: var(--color-gray-50);
+  --color-gray-100: var(--color-gray-100);
+  --color-gray-200: var(--color-gray-200);
+  --color-gray-300: var(--color-gray-300);
+  --color-gray-400: var(--color-gray-400);
+  --color-gray-500: var(--color-gray-500);
+  --color-gray-600: var(--color-gray-600);
+  --color-gray-700: var(--color-gray-700);
+  --color-gray-800: var(--color-gray-800);
+  --color-gray-900: var(--color-gray-900);
+  --color-gray-950: var(--color-gray-950);
+
+  /* Error */
+  --color-error-25: var(--color-error-25);
+  --color-error-50: var(--color-error-50);
+  --color-error-100: var(--color-error-100);
+  --color-error-200: var(--color-error-200);
+  --color-error-300: var(--color-error-300);
+  --color-error-400: var(--color-error-400);
+  --color-error-500: var(--color-error-500);
+  --color-error-600: var(--color-error-600);
+  --color-error-700: var(--color-error-700);
+  --color-error-800: var(--color-error-800);
+  --color-error-900: var(--color-error-900);
+  --color-error-950: var(--color-error-950);
+
+  /* Warning */
+  --color-warning-25: var(--color-warning-25);
+  --color-warning-50: var(--color-warning-50);
+  --color-warning-100: var(--color-warning-100);
+  --color-warning-200: var(--color-warning-200);
+  --color-warning-300: var(--color-warning-300);
+  --color-warning-400: var(--color-warning-400);
+  --color-warning-500: var(--color-warning-500);
+  --color-warning-600: var(--color-warning-600);
+  --color-warning-700: var(--color-warning-700);
+  --color-warning-800: var(--color-warning-800);
+  --color-warning-900: var(--color-warning-900);
+  --color-warning-950: var(--color-warning-950);
+
+  /* Success */
+  --color-success-25: var(--color-success-25);
+  --color-success-50: var(--color-success-50);
+  --color-success-100: var(--color-success-100);
+  --color-success-200: var(--color-success-200);
+  --color-success-300: var(--color-success-300);
+  --color-success-400: var(--color-success-400);
+  --color-success-500: var(--color-success-500);
+  --color-success-600: var(--color-success-600);
+  --color-success-700: var(--color-success-700);
+  --color-success-800: var(--color-success-800);
+  --color-success-900: var(--color-success-900);
+  --color-success-950: var(--color-success-950);
+
+  /* Shadows */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+  --shadow-3xl: var(--shadow-3xl);
+
+  /* Background / surface (Figma Super admin sign-in) */
+  --color-background-page: var(--color-background-page);
+  --color-background-surface-alt: var(--color-background-surface-alt);
+
+  /* Brand / admin panel (#084167) */
+  --color-brand-admin: #084167;
+
+  /* Browser / chrome (traffic lights, URL bar) */
+  --color-chrome-red: var(--color-chrome-red);
+  --color-chrome-red-dark: var(--color-chrome-red-dark);
+  --color-chrome-amber: var(--color-chrome-amber);
+  --color-chrome-amber-dark: var(--color-chrome-amber-dark);
+  --color-chrome-green: var(--color-chrome-green);
+  --color-chrome-green-dark: var(--color-chrome-green-dark);
+  --color-chrome-url: var(--color-chrome-url);
+  --color-chrome-gray-2: var(--color-chrome-gray-2);
+  --color-chrome-gray-4: var(--color-chrome-gray-4);
+  --color-chrome-gray-5: var(--color-chrome-gray-5);
+  --color-chrome-gray-6: var(--color-chrome-gray-6);
+}
+
+// --- Afri Transfer theme: map Material 3 to design tokens ---
+// https://www.figma.com/design/57Iefmsh2OoNaOG3iT6eTX/Afri-Transfer
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: (
+        font-family: 'Poppins',
+        font-weight: 400,
+      ),
+      density: 0,
+    )
+  );
+  // Override Material system colors with Afri tokens
+  --mat-sys-primary: var(--afri-primary-600);
+  --mat-sys-on-primary: var(--afri-white);
+  --mat-sys-primary-container: var(--afri-primary-100);
+  --mat-sys-on-primary-container: var(--afri-primary-900);
+  --mat-sys-secondary: var(--afri-secondary-600);
+  --mat-sys-on-secondary: var(--afri-white);
+  --mat-sys-surface: var(--afri-white);
+  --mat-sys-on-surface: var(--afri-gray-900);
+  --mat-sys-surface-container-lowest: var(--afri-gray-50);
+  --mat-sys-outline: var(--afri-gray-300);
+  --mat-sys-outline-variant: var(--afri-gray-200);
+  --mat-sys-error: var(--afri-error-500);
+  --mat-sys-on-error: var(--afri-white);
+  --mat-sys-error-container: var(--afri-error-50);
+  --mat-sys-on-error-container: var(--afri-error-900);
+}
+
+body {
+  color-scheme: light;
+  margin: 0;
+  height: 100%;
+  background-color: var(--afri-white);
+  color: var(--afri-gray-900);
+  font-family: var(--afri-font);
+  --mat-sys-body-large-size: 0.875rem;
+
+  @include mat.dialog-overrides(
+    (
+      container-shape: 6px,
+    )
+  );
+}
+
+// Elevation uses Afri shadow
+.elevated {
+  box-shadow: var(--afri-shadow-lg);
+}
+
+// Buttons: Afri radius and spacing
+button[matButton] {
+  @include mat.button-overrides(
+    (
+      filled-container-shape: 6px,
+      outlined-container-shape: 6px,
+      text-container-shape: 6px,
+      protected-container-shape: 6px,
+      tonal-container-shape: 6px,
+      filled-horizontal-padding: 12px,
+      outlined-horizontal-padding: 12px,
+      text-horizontal-padding: 12px,
+      protected-horizontal-padding: 12px,
+      tonal-horizontal-padding: 12px,
+      filled-icon-spacing: 0px,
+      filled-icon-offset: 1px,
+      filled-container-height: 36px,
+      outlined-container-height: 36px,
+      text-container-height: 36px,
+      protected-container-height: 36px,
+      tonal-container-height: 36px,
+    )
+  );
+}
+
+button[matButton='outlined'].danger {
+  @include mat.button-overrides(
+    (
+      outlined-label-text-color: var(--afri-error-600),
+      outlined-outline-color: var(--afri-error-500),
+      outlined-state-layer-color: var(--afri-error-500),
+    )
+  );
+}
+
+button[matIconButton] {
+  @include mat.icon-button-overrides(
+    (
+      container-shape: 6px,
+    )
+  );
+}
+
+button[matIconButton].danger {
+  @include mat.icon-button-overrides(
+    (
+      icon-color: var(--afri-error-600),
+      state-layer-color: var(--afri-error-500),
+    )
+  );
+}
+
+button[matIconButton].small {
+  @include mat.icon-button-overrides(
+    (
+      icon-size: 24px,
+      touch-target-size: 28px,
+      state-layer-size: 28px,
+    )
+  );
+}
+
+mat-icon.small {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.danger {
+  color: var(--afri-error-600);
+}
+
+mat-form-field {
+  @include mat.theme(
+    (
+      density: -4,
+    )
+  );
+  width: 100%;
+}
+
+mat-sidenav {
+  @include mat.sidenav-overrides(
+    (
+      container-width: 250px,
+      container-shape: 0px,
+      container-background-color: var(--afri-white),
+      container-divider-color: var(--afri-gray-200),
+    )
+  );
+
+  @include mat.list-overrides(
+    (
+      active-indicator-color: var(--afri-primary-600),
+      active-indicator-shape: 6px,
+      list-item-one-line-container-height: 40px,
+      list-item-label-text-color: var(--afri-gray-900),
+    )
+  );
+}
+
+// Fix notch border with Angular Material + Tailwind
+.mdc-notched-outline__notch {
+  border-right: none !important;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1rem;
+}

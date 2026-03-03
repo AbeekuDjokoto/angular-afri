@@ -1,0 +1,217 @@
+// Afri Transfer design tokens
+// Tailwind @theme and components use --color-*; legacy --afri-* aliases kept for compatibility.
+
+:root {
+  // Base
+  --color-white: #ffffff;
+  --color-accent: #17c03c;
+  --afri-white: var(--color-white);
+  --afri-accent: var(--color-accent);
+
+  // Font families
+  --font-family-arimo: "Arimo", sans-serif;
+  --font-family-inter: "Inter", sans-serif;
+  --font-family-figtree: "Figtree", serif;
+  --font-family-poppins: "Poppins", sans-serif;
+  --afri-font: var(--font-family-poppins);
+
+  // Primary
+  --color-primary-25: #f7fafd;
+  --color-primary-50: #e6f0f9;
+  --color-primary-100: #d6e6f5;
+  --color-primary-200: #a5c8e8;
+  --color-primary-300: #85b3e0;
+  --color-primary-400: #5495d4;
+  --color-primary-500: #3381cc;
+  --color-primary-600: #27629b;
+  --color-primary-700: #1e4c79;
+  --color-primary-800: #122e4a;
+  --color-primary-900: #0a1a29;
+  --color-primary-950: #040a10;
+
+  // Secondary
+  --color-secondary-25: #f5f9f9;
+  --color-secondary-50: #f3fbfb;
+  --color-secondary-100: #e8f2f2;
+  --color-secondary-200: #cde4e2;
+  --color-secondary-300: #b2d6d2;
+  --color-secondary-400: #7dbab2;
+  --color-secondary-500: #62aca2;
+  --color-secondary-600: #488980;
+  --color-secondary-700: #396d66;
+  --color-secondary-800: #254642;
+  --color-secondary-900: #172b29;
+  --color-secondary-950: #091110;
+
+  // Gray
+  --color-gray-25: #fdfdfd;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e9eaeb;
+  --color-gray-300: #d5d7da;
+  --color-gray-400: #a4a7ae;
+  --color-gray-500: #717680;
+  --color-gray-600: #535862;
+  --color-gray-700: #414651;
+  --color-gray-800: #252b37;
+  --color-gray-900: #181d27;
+  --color-gray-950: #0a0d12;
+
+  // Error
+  --color-error-25: #fffbfa;
+  --color-error-50: #fef3f2;
+  --color-error-100: #fee4e2;
+  --color-error-200: #fecdca;
+  --color-error-300: #fda29b;
+  --color-error-400: #f97066;
+  --color-error-500: #f04438;
+  --color-error-600: #d92d20;
+  --color-error-700: #b42318;
+  --color-error-800: #912018;
+  --color-error-900: #7a271a;
+  --color-error-950: #55160c;
+
+  // Warning
+  --color-warning-25: #fffcf5;
+  --color-warning-50: #fffaeb;
+  --color-warning-100: #fef0c7;
+  --color-warning-200: #fedf89;
+  --color-warning-300: #fec84b;
+  --color-warning-400: #fdb022;
+  --color-warning-500: #f79009;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+  --color-warning-800: #93370d;
+  --color-warning-900: #7a2e0e;
+  --color-warning-950: #4e1d09;
+
+  // Success
+  --color-success-25: #f6fef9;
+  --color-success-50: #ecfdf3;
+  --color-success-100: #d1fadf;
+  --color-success-200: #a6f4c5;
+  --color-success-300: #6ce9a6;
+  --color-success-400: #32d583;
+  --color-success-500: #12b76a;
+  --color-success-600: #039855;
+  --color-success-700: #027a48;
+  --color-success-800: #05603a;
+  --color-success-900: #054f31;
+  --color-success-950: #053321;
+
+  // Background / surface (from Figma Super admin/sign in - empty)
+  --color-background-page: #fbfbfb;
+  --color-background-surface-alt: #f4f4f5;
+
+  // Brand / admin (left panel “AFRI TRANSFER ADMIN PORTAL”)
+  --color-brand-admin: #084167;
+  --afri-brand-admin: var(--color-brand-admin);
+
+  // Browser / chrome (Safari-style UI: traffic lights + URL bar)
+  --color-chrome-red: #e8695e;
+  --color-chrome-red-dark: #d24f42;
+  --color-chrome-amber: #f1be4f;
+  --color-chrome-amber-dark: #d7a03e;
+  --color-chrome-green: #61c554;
+  --color-chrome-green-dark: #57ab41;
+  --color-chrome-url: #4f4d58;
+  --color-chrome-gray-2: #e9e8e9;
+  --color-chrome-gray-4: #b6b5b5;
+  --color-chrome-gray-5: #a09f9f;
+  --color-chrome-gray-6: #6a6969;
+
+  // Afri aliases (for existing styles/components)
+  --afri-primary-25: var(--color-primary-25);
+  --afri-primary-50: var(--color-primary-50);
+  --afri-primary-100: var(--color-primary-100);
+  --afri-primary-200: var(--color-primary-200);
+  --afri-primary-300: var(--color-primary-300);
+  --afri-primary-400: var(--color-primary-400);
+  --afri-primary-500: var(--color-primary-500);
+  --afri-primary-600: var(--color-primary-600);
+  --afri-primary-700: var(--color-primary-700);
+  --afri-primary-800: var(--color-primary-800);
+  --afri-primary-900: var(--color-primary-900);
+  --afri-primary-950: var(--color-primary-950);
+  --afri-secondary-25: var(--color-secondary-25);
+  --afri-secondary-50: var(--color-secondary-50);
+  --afri-secondary-100: var(--color-secondary-100);
+  --afri-secondary-200: var(--color-secondary-200);
+  --afri-secondary-300: var(--color-secondary-300);
+  --afri-secondary-400: var(--color-secondary-400);
+  --afri-secondary-500: var(--color-secondary-500);
+  --afri-secondary-600: var(--color-secondary-600);
+  --afri-secondary-700: var(--color-secondary-700);
+  --afri-secondary-800: var(--color-secondary-800);
+  --afri-secondary-900: var(--color-secondary-900);
+  --afri-secondary-950: var(--color-secondary-950);
+  --afri-gray-25: var(--color-gray-25);
+  --afri-gray-50: var(--color-gray-50);
+  --afri-gray-100: var(--color-gray-100);
+  --afri-gray-200: var(--color-gray-200);
+  --afri-gray-300: var(--color-gray-300);
+  --afri-gray-400: var(--color-gray-400);
+  --afri-gray-500: var(--color-gray-500);
+  --afri-gray-600: var(--color-gray-600);
+  --afri-gray-700: var(--color-gray-700);
+  --afri-gray-800: var(--color-gray-800);
+  --afri-gray-900: var(--color-gray-900);
+  --afri-gray-950: var(--color-gray-950);
+  --afri-error-50: var(--color-error-50);
+  --afri-error-100: var(--color-error-100);
+  --afri-error-500: var(--color-error-500);
+  --afri-error-600: var(--color-error-600);
+  --afri-error-900: var(--color-error-900);
+  --afri-warning-50: var(--color-warning-50);
+  --afri-warning-100: var(--color-warning-100);
+  --afri-warning-500: var(--color-warning-500);
+  --afri-success-50: var(--color-success-50);
+  --afri-success-100: var(--color-success-100);
+  --afri-success-500: var(--color-success-500);
+  --afri-success-600: var(--color-success-600);
+
+  // Shadows
+  --shadow-xs: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+  --shadow-sm: 0px 1px 2px 0px rgba(10, 13, 18, 0.06), 0px 1px 3px 0px rgba(10, 13, 18, 0.1);
+  --shadow-md: 0px 2px 4px -2px rgba(10, 13, 18, 0.06), 0px 4px 8px -2px rgba(10, 13, 18, 0.1);
+  --shadow-lg: 0px 4px 6px -2px rgba(10, 13, 18, 0.05), 0px 12px 16px -4px rgba(10, 13, 18, 0.1);
+  --shadow-xl: 0px 8px 8px -4px rgba(10, 13, 18, 0.04), 0px 20px 24px -4px rgba(10, 13, 18, 0.1);
+  --shadow-2xl: 0px 24px 48px -12px rgba(10, 13, 18, 0.25);
+  --shadow-3xl: 0px 32px 64px -12px rgba(10, 13, 18, 0.2);
+  --afri-shadow-lg: var(--shadow-lg);
+  --afri-shadow-card: var(--shadow-sm);
+
+  // Typography (sizes – unchanged)
+  --afri-display-xl: 60px;
+  --afri-display-xl-lh: 1.2;
+  --afri-display-xl-weight: 600;
+  --afri-display-xs: 24px;
+  --afri-display-xs-lh: 1.333;
+  --afri-display-xs-weight: 600;
+  --afri-text-lg: 18px;
+  --afri-text-lg-lh: 1.556;
+  --afri-text-lg-weight: 600;
+  --afri-text-lg-med: 500;
+  --afri-text-md: 16px;
+  --afri-text-md-lh: 1.5;
+  --afri-text-sm: 14px;
+  --afri-text-sm-lh: 1.43;
+
+  // Button sizes
+  --afri-btn-lg-h: 48px;
+  --afri-btn-lg-px: 24px;
+  --afri-btn-lg-font: 16px;
+  --afri-btn-md-h: 44px;
+  --afri-btn-md-px: 20px;
+  --afri-btn-md-font: 14px;
+  --afri-btn-sm-h: 36px;
+  --afri-btn-sm-px: 16px;
+  --afri-btn-sm-font: 14px;
+  --afri-btn-xs-h: 28px;
+  --afri-btn-xs-px: 12px;
+  --afri-btn-xs-font: 12px;
+
+  // Radius
+  --afri-radius: 8px;
+  --afri-radius-sm: 6px;
+}
