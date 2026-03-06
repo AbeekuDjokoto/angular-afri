@@ -1,3 +1,3 @@
 export const environment = {
-    API_URL: 'https://afritransfer-api.enyata.com'
+  API_URL: 'https://api.freeprojectapi.com',
 };

@@ -1,11 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy, inject } from '@angular/core';
-import { form, FormField, required, email } from '@angular/forms/signals';
+import { RouterLink } from '@angular/router';
+import { email, form, FormField, required } from '@angular/forms/signals';
 import { AfriInputComponent } from '../../../../components/ui/input/input.component';
-import { AuthService } from '../../../../services/auth-service';
+import { AuthStore } from '../../../../store/auth.store';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField, AfriInputComponent],
+  imports: [FormField, AfriInputComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="flex flex-col gap-6">
@@ -16,11 +17,11 @@ import { AuthService } from '../../../../services/auth-service';
         </p>
       </div>
 
-      <form class="flex flex-col gap-5" (ngSubmit)="onSubmit()">
+      <form class="flex flex-col gap-5" (submit)="onSubmit($event)">
         <afri-input
-          [formField]="loginForm.email"
-          label="Email"
-          placeholder="Enter your email"
+          [formField]="loginForm.emailId"
+          label="Email address"
+          placeholder="Enter your email address"
           type="email"
         />
 
@@ -78,14 +79,21 @@ import { AuthService } from '../../../../services/auth-service';
         <button
           type="submit"
           class="mt-2 h-12 w-full rounded-lg bg-primary-600 px-6 font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-60"
-          [disabled]="loginForm().invalid() || loading()"
+          [disabled]="loginForm().invalid() || authStore.loading()"
         >
-          {{ loading() ? 'Signing in…' : 'Sign In' }}
+          {{ authStore.loading() ? 'Signing in…' : 'Sign In' }}
         </button>
         @if (error()) {
           <p class="text-sm text-error-600" role="alert">{{ error() }}</p>
         }
       </form>
+
+      <p class="text-sm text-gray-600 text-center">
+        Don't have an account?
+        <a routerLink="/auth/create-account" class="font-medium text-primary-600 hover:underline"
+          >Create account</a
+        >
+      </p>
     </section>
   `,
   styles: `
@@ -110,45 +118,27 @@ import { AuthService } from '../../../../services/auth-service';
   `,
 })
 export default class Login {
-  private readonly authService = inject(AuthService);
+  readonly authStore = inject(AuthStore);
 
   passwordVisible = signal(false);
-  loading = signal(false);
   error = signal<string | null>(null);
 
   loginModel = signal({
-    email: '',
+    emailId: '',
     password: '',
   });
 
   loginForm = form(this.loginModel, (schemaPath) => {
-    required(schemaPath.email, { message: 'Email is required' });
-    email(schemaPath.email, { message: 'Enter a valid email address' });
+    required(schemaPath.emailId, { message: 'Email is required' });
+    email(schemaPath.emailId, { message: 'Enter a valid email ID' });
     required(schemaPath.password, { message: 'Password is required' });
   });
 
-  onSubmit(): void {
-    debugger;
+  onSubmit(event: Event): void {
+    event.preventDefault();
     if (this.loginForm().invalid()) return;
 
     this.error.set(null);
-    this.loading.set(true);
-
-    this.authService.login(this.loginModel()).subscribe({
-      next: (res: any) => {
-        this.loading.set(false);
-        console.log('response', res);
-        // API returns: OTP sent; data.has_verified_login_otp indicates if OTP already verified
-        if (res.data.has_verified_login_otp) {
-          // TODO: store session, navigate to dashboard
-        } else {
-          // TODO: navigate to OTP verification (e.g. /auth/verify-otp), pass res.data or store temporarily
-        }
-      },
-      error: (err) => {
-        this.loading.set(false);
-        this.error.set(err?.error?.message ?? 'Sign in failed. Please try again.');
-      },
-    });
+    this.authStore.login(this.loginModel());
   }
 }

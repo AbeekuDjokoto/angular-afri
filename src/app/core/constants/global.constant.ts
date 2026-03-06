@@ -1,22 +1,25 @@
+const API_PREFIX = '/api';
 const ADMINISTRATION_PREFIX = '/admin';
-const AUTH_PREFIX = '/admin/auth';
+/** Auth under /api/v1; use '/admin/auth' instead if your backend has no api/v1 for auth */
+const AUTH_PREFIX = `${API_PREFIX}/admin/auth`;
 
 export const GlobalConstant = {
-  API_PREFIX: '/api/v1',
+  API_PREFIX,
   ADMINISTRATION_PREFIX,
 
   API_END_POINTS: {
     ADMINISTRATION: {
-      GET_AUDIT_LOGS: `${ADMINISTRATION_PREFIX}/audit-logs`,
-      GET_AUDIT_LOGS_EXPORT: `${ADMINISTRATION_PREFIX}/audit-logs/export`,
-      GET_ADMIN_PROFILE: `${ADMINISTRATION_PREFIX}/profile`,
-      GET_ADMIN: `${ADMINISTRATION_PREFIX}`,
-      GET_ADMIN_PROFILE_IMAGE_URL: `${ADMINISTRATION_PREFIX}/profile/image-url`,
-      GET_ADMIN_ARCHIVED: `${ADMINISTRATION_PREFIX}/archived`,
-      GET_ADMIN_LIMIT_REQUESTS: `${ADMINISTRATION_PREFIX}/limit-requests`,
+      GET_AUDIT_LOGS: `${API_PREFIX}${ADMINISTRATION_PREFIX}/audit-logs`,
+      GET_AUDIT_LOGS_EXPORT: `${API_PREFIX}${ADMINISTRATION_PREFIX}/audit-logs/export`,
+      GET_ADMIN_PROFILE: `${API_PREFIX}${ADMINISTRATION_PREFIX}/profile`,
+      GET_ADMIN: `${API_PREFIX}${ADMINISTRATION_PREFIX}`,
+      GET_ADMIN_PROFILE_IMAGE_URL: `${API_PREFIX}${ADMINISTRATION_PREFIX}/profile/image-url`,
+      GET_ADMIN_ARCHIVED: `${API_PREFIX}${ADMINISTRATION_PREFIX}/archived`,
+      GET_ADMIN_LIMIT_REQUESTS: `${API_PREFIX}${ADMINISTRATION_PREFIX}/limit-requests`,
     },
     AUTH: {
-      LOGIN: `${AUTH_PREFIX}/login`,
+      LOGIN: `${API_PREFIX}/UserApp/login`,
+      CREATE_ACCOUNT: `${API_PREFIX}/UserApp/CreateNewUser`,
     },
   },
   REGULAR_EXPRESSIONS: {
