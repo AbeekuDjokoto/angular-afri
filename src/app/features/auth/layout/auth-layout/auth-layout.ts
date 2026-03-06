@@ -17,8 +17,14 @@ import { RouterLink, RouterOutlet } from '@angular/router';
           </p>
         </div>
       </section>
-      <section class="w-full min-w-0 min-[440px]:min-w-[440px] bg-white rounded-xl py-16 px-10">
-        <a routerLink="/auth/login" class="block mb-8 w-max mx-auto" aria-label="Afri Transfer home">
+      <section
+        class="w-full min-w-0 min-[440px]:min-w-[440px] bg-white rounded-xl py-16 px-10 flex flex-col gap-6"
+      >
+        <a
+          routerLink="/auth/login"
+          class="block mb-8 w-max mx-auto"
+          aria-label="Afri Transfer home"
+        >
           <img src="/assets/icons/logo.svg" alt="" class="h-10 w-auto" />
         </a>
         <router-outlet />

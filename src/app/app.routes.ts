@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { NotFound } from './components/not-found/not-found';
 
 export const routes: Routes = [
   {
@@ -15,10 +16,10 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () => import('./features/auth/pages/login/login'),
       },
-      {
-        path: 'create-account',
-        loadComponent: () => import('./features/auth/pages/create-account/create-account'),
-      },
     ],
+  },
+  {
+    path: '**',
+    component: NotFound,
   },
 ];

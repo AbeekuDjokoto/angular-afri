@@ -7,7 +7,6 @@ import {
   computed,
   inject,
   ElementRef,
-  AfterViewInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import type { FormValueControl, ValidationError } from '@angular/forms/signals';
@@ -34,11 +33,9 @@ import type { FormValueControl, ValidationError } from '@angular/forms/signals';
         </label>
       }
       <div class="afri-input__wrapper">
-        @if (hasPrefix()) {
-          <span class="afri-input__prefix">
-            <ng-content select="[prefix]" />
-          </span>
-        }
+        <span class="afri-input__prefix">
+          <ng-content select="[prefix]" />
+        </span>
         <input
           [id]="inputId()"
           [type]="type()"
@@ -55,11 +52,9 @@ import type { FormValueControl, ValidationError } from '@angular/forms/signals';
           class="afri-input__field"
           #inputEl
         />
-        @if (hasSuffix()) {
-          <span class="afri-input__suffix">
-            <ng-content select="[suffix]" />
-          </span>
-        }
+        <span class="afri-input__suffix">
+          <ng-content select="[suffix]" />
+        </span>
       </div>
       @if (showError() && errors().length > 0) {
         <span [id]="hintId()" class="afri-input__hint afri-input__hint--error" role="alert">
@@ -153,6 +148,11 @@ import type { FormValueControl, ValidationError } from '@angular/forms/signals';
       flex-shrink: 0;
     }
 
+    .afri-input__prefix:empty,
+    .afri-input__suffix:empty {
+      display: none;
+    }
+
     .afri-input__prefix :deep(svg),
     .afri-input__suffix :deep(svg) {
       width: 20px;
@@ -171,7 +171,7 @@ import type { FormValueControl, ValidationError } from '@angular/forms/signals';
     }
   `,
 })
-export class AfriInputComponent implements FormValueControl<string>, AfterViewInit {
+export class AfriInputComponent implements FormValueControl<string> {
   private readonly el = inject(ElementRef<HTMLElement>);
   private uniqueId = `afri-input-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -199,17 +199,6 @@ export class AfriInputComponent implements FormValueControl<string>, AfterViewIn
   showError = computed(() => this.touched() && this.errors().length > 0);
   inputId = signal(this.uniqueId);
   hintId = signal(`${this.uniqueId}-hint`);
-
-  private hasPrefixSlot = signal(false);
-  private hasSuffixSlot = signal(false);
-  hasPrefix = () => this.hasPrefixSlot();
-  hasSuffix = () => this.hasSuffixSlot();
-
-  ngAfterViewInit(): void {
-    const host = this.el.nativeElement;
-    this.hasPrefixSlot.set(!!host.querySelector('[prefix]'));
-    this.hasSuffixSlot.set(!!host.querySelector('[suffix]'));
-  }
 
   onInput(event: Event): void {
     this.value.set((event.target as HTMLInputElement).value);

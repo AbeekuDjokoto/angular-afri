@@ -1,4 +1,5 @@
 const ADMINISTRATION_PREFIX = '/admin';
+const AUTH_PREFIX = '/admin/auth';
 
 export const GlobalConstant = {
   API_PREFIX: '/api/v1',
@@ -13,6 +14,9 @@ export const GlobalConstant = {
       GET_ADMIN_PROFILE_IMAGE_URL: `${ADMINISTRATION_PREFIX}/profile/image-url`,
       GET_ADMIN_ARCHIVED: `${ADMINISTRATION_PREFIX}/archived`,
       GET_ADMIN_LIMIT_REQUESTS: `${ADMINISTRATION_PREFIX}/limit-requests`,
+    },
+    AUTH: {
+      LOGIN: `${AUTH_PREFIX}/login`,
     },
   },
   REGULAR_EXPRESSIONS: {

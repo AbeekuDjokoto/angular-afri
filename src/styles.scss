@@ -1,4 +1,5 @@
 // @use must come before @import in Sass
+@use '@ngxpert/hot-toast/styles';
 @use '@angular/material' as mat;
 @use './styles/design-tokens';
 @import 'tailwindcss';
@@ -297,3 +298,5 @@ mat-sidenav {
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 1rem;
 }
+
+/* Importing @ngxpert/hot-toast SCSS file. */
